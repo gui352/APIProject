@@ -1,0 +1,6 @@
+package com.apijava.javaAPI.domain.exception;
+
+public class NegocioException extends RuntimeException{
+
+    public NegocioException(String message) {super(message);}
+}
