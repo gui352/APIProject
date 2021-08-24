@@ -1,7 +1,6 @@
 package com.apijava.javaAPI.domain.model;
 
 import com.apijava.javaAPI.domain.ValidationGroups;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,6 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -36,6 +34,7 @@ public class Pessoa implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
 
+    @NotNull
     private String nome;
 
     @NotBlank
@@ -45,10 +44,6 @@ public class Pessoa implements UserDetails {
     @NotBlank
     @Size(min = 6)
     private String senha;
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @Enumerated(EnumType.STRING)
-    private Perfil perfil;
 
     @ManyToMany
     @JoinTable(name = "role_usuarios",

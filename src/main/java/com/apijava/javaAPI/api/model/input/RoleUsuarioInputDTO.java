@@ -10,10 +10,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class RoleUsuarioInputDTO {
 
-    @NotNull
     private Long usuarios_id;
 
-    @NotBlank
     private  String role_nome_role;
 
 

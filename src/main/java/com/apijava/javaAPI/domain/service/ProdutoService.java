@@ -45,9 +45,10 @@ public class ProdutoService {
         }
         Produto produto1 = this.buscar(codigo);
         produto.setCodigo(codigo);
-        produto = produtoRepository.save(produto);
+        produto.setValor_total_em_estoque(produto.getValor_unitario()*produto.getQuantidade());
+        produto1 = produtoRepository.save(produto);
 
-        return ResponseEntity.ok(produtoAssembler.toModel(produto));
+        return ResponseEntity.ok(produtoAssembler.toModel(produto1));
     }
 
     @Transactional

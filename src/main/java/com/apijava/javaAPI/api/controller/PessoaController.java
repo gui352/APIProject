@@ -3,12 +3,14 @@ package com.apijava.javaAPI.api.controller;
 import com.apijava.javaAPI.api.assembler.PessoaAssembler;
 import com.apijava.javaAPI.api.model.PessoaDTO;
 import com.apijava.javaAPI.api.model.input.PessoaInputDTO;
-import com.apijava.javaAPI.domain.model.Perfil;
 import com.apijava.javaAPI.domain.model.Pessoa;
+import com.apijava.javaAPI.domain.model.RoleUsuario;
 import com.apijava.javaAPI.domain.repository.PessoaRepository;
 import com.apijava.javaAPI.domain.service.PessoaService;
+import com.apijava.javaAPI.domain.service.RoleUsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,12 +24,18 @@ public class PessoaController {
     private PessoaRepository pessoaRepository;
     private PessoaService pessoaService;
     private PessoaAssembler pessoaAssembler;
+    private RoleUsuarioService roleUsuarioService;
 
     @PostMapping("/cadastrar")
     public PessoaDTO cadastrar(@Valid @RequestBody PessoaInputDTO pessoaInputDTO){
         Pessoa novaPessoa = pessoaAssembler.toEntity(pessoaInputDTO);
-        novaPessoa.setPerfil(Perfil.ROLE_USER);
+        novaPessoa.setSenha(new BCryptPasswordEncoder()
+                .encode(pessoaInputDTO.getSenha()));
         Pessoa pessoa = pessoaService.cadastrar(novaPessoa);
+        RoleUsuario novaRole = new RoleUsuario();
+        novaRole.setUsuarios_id(novaPessoa.getCodigo());
+        novaRole.setRole_nome_role("ROLE_USER");
+        roleUsuarioService.cadastrar(novaRole);
 
         return pessoaAssembler.toModel(pessoa);
     }
@@ -37,17 +45,13 @@ public class PessoaController {
         return pessoaService.listar();
     }
 
-    @PutMapping("/editar/{codigo}")
+    @PutMapping("/{codigo}")
     public ResponseEntity<PessoaDTO> editar(@Valid @PathVariable Long codigo,
                                             @RequestBody PessoaInputDTO pessoaInputDTO){
         Pessoa pessoa = pessoaAssembler.toEntity(pessoaInputDTO);
+        pessoa.setSenha(new BCryptPasswordEncoder()
+                .encode(pessoaInputDTO.getSenha()));
         pessoaService.editar(codigo,pessoa);
-        return ResponseEntity.ok(pessoaAssembler.toModel(pessoa));
-    }
-
-    @PutMapping("/editarPermissao/{codigo}")
-    public ResponseEntity<PessoaDTO> editar(@Valid @PathVariable Long codigo){
-        Pessoa pessoa = pessoaService.editarPerfil(codigo);
         return ResponseEntity.ok(pessoaAssembler.toModel(pessoa));
     }
 

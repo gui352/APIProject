@@ -23,7 +23,7 @@ public class RoleUsuarioController {
     RoleUsuarioService roleUsuarioService;
 
     @PostMapping
-    public RoleUsuarioDTO cadastrar(@Valid @RequestBody RoleUsuarioInputDTO roleUsuarioInputDTO) {
+    public RoleUsuarioDTO cadastrar(@Valid @RequestBody RoleUsuarioInputDTO roleUsuarioInputDTO){
         RoleUsuario novaRole = roleUsuarioAssembler.toEntity(roleUsuarioInputDTO);
         RoleUsuario roleUsuario = roleUsuarioService.cadastrar(novaRole);
         return roleUsuarioAssembler.toModel(roleUsuario);
@@ -46,12 +46,4 @@ public class RoleUsuarioController {
         return ResponseEntity.ok(roleUsuarioAssembler.toModel(roleUsuario1));
     }
 
-    @DeleteMapping("/{roleId}")
-    public ResponseEntity<RoleUsuarioDTO> deletar(@PathVariable Long roleId) {
-        if (!roleUsuarioRepository.existsById(roleId)) {
-            return ResponseEntity.notFound().build();
-        }
-        roleUsuarioService.deletar(roleId);
-        return ResponseEntity.noContent().build();
-    }
 }

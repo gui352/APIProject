@@ -1,6 +1,7 @@
 package com.apijava.javaAPI.api.assembler;
 
 import com.apijava.javaAPI.api.model.PessoaDTO;
+import com.apijava.javaAPI.api.model.LoginDTO;
 import com.apijava.javaAPI.api.model.input.PessoaInputDTO;
 import com.apijava.javaAPI.domain.model.Pessoa;
 import lombok.AllArgsConstructor;
@@ -29,5 +30,10 @@ public class PessoaAssembler {
     public PessoaDTO toModel(Pessoa pessoa){
         return modelMapper.map(pessoa, PessoaDTO.class);
     }
+
+    public Pessoa toEntityLogin(LoginDTO loginDTO) {
+        return modelMapper.map(loginDTO, Pessoa.class);
+    }
+
 
 }

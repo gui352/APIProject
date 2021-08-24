@@ -45,12 +45,9 @@ public class RoleUsuarioService {
         }
         RoleUsuario roleUsuario1 = this.buscar(roleId);
         roleUsuario.setId(roleId);
+        roleUsuario.setUsuarios_id(roleUsuario.getUsuarios_id());
         roleUsuario = roleUsuarioRepository.save(roleUsuario);
         return ResponseEntity.ok(roleUsuarioAssembler.toModel(roleUsuario));
     }
-
-    @Transactional
-    public void deletar(Long roleId){ roleUsuarioRepository.deleteById(roleId); }
-
 
 }

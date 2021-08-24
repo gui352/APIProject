@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.validation.constraints.NotNull;
+
 @EnableWebSecurity
 @Configuration
 @AllArgsConstructor
@@ -24,32 +26,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JWTRequestFilter jwtRequestFilter;
 
     private static final String[] AUTH_LIST = {
-            "/produtos/listar",
-            "/pessoas/editar/{codigo}"
+            "/",
+            "/pessoas",
+            "/pessoas/cadastrar",
+            "/pessoas/{codigo}",
+            "/produtos/cadastrar",
+            "/produtos/{codigo}",
+            "/roles",
+            "/roles/{roleId}"
     };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/",
-                        "/pessoas/{codigo}",
-                        "/pessoas/cadastrar",
-                        "/pessoas/editarPermissao/{codigo}",
-                        "/produtos/{codigo}",
-                        "/produtos/cadastrar").hasRole("ADMIN")
                 .antMatchers("/authenticate").permitAll()
-                .antMatchers(HttpMethod.GET,AUTH_LIST).permitAll()
-                .antMatchers(HttpMethod.POST,AUTH_LIST).permitAll()
-                .antMatchers(HttpMethod.PUT,AUTH_LIST).permitAll()
-                .antMatchers(HttpMethod.DELETE,AUTH_LIST).permitAll()
+                .antMatchers(HttpMethod.GET,AUTH_LIST).hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,AUTH_LIST).hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT,AUTH_LIST).hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE,AUTH_LIST).hasRole("ADMIN")
                 .anyRequest().authenticated()
+                .and().cors()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .deleteCookies("token").invalidateHttpSession(true);
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -69,5 +72,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/botstrap/**","/style/**");
     }
-
 }

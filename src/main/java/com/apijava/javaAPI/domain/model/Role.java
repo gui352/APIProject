@@ -8,12 +8,14 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
+@Table(name = "roles")
 public class Role implements GrantedAuthority {
 
     @Id

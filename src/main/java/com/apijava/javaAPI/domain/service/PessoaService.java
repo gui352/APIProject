@@ -3,14 +3,16 @@ package com.apijava.javaAPI.domain.service;
 import com.apijava.javaAPI.api.assembler.PessoaAssembler;
 import com.apijava.javaAPI.api.model.PessoaDTO;
 import com.apijava.javaAPI.domain.exception.NegocioException;
-import com.apijava.javaAPI.domain.model.Perfil;
 import com.apijava.javaAPI.domain.model.Pessoa;
+import com.apijava.javaAPI.domain.model.RoleUsuario;
 import com.apijava.javaAPI.domain.repository.PessoaRepository;
+import com.apijava.javaAPI.domain.repository.RoleUsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @AllArgsConstructor
@@ -19,9 +21,11 @@ public class PessoaService {
 
     private PessoaRepository pessoaRepository;
     private PessoaAssembler pessoaAssembler;
+    private RoleUsuarioService roleUsuarioService;
+    private RoleUsuarioRepository roleUsuarioRepository;
 
     @Transactional
-    public Pessoa cadastrar(Pessoa pessoa){
+    public Pessoa cadastrar(@NotNull Pessoa pessoa){
                 boolean emailValidation = pessoaRepository.findByEmail(
                 pessoa.getEmail()).isPresent();
         if (emailValidation){
@@ -46,22 +50,10 @@ public class PessoaService {
         }
         Pessoa pessoa1 = this.buscar(codigo);
         pessoa.setCodigo(codigo);
-        pessoa.setPerfil(pessoa1.getPerfil());
         pessoa1 = pessoaRepository.save(pessoa);
+
         return ResponseEntity.ok(pessoaAssembler.toModel(pessoa1));
     }
-
-    public Pessoa editarPerfil(Long codigo) {
-        if (!pessoaRepository.existsById(codigo)){
-            throw new NegocioException("Pessoa não encontrada");
-        }
-        Pessoa pessoa1 = this.buscar(codigo);
-        pessoa1.setCodigo(codigo);
-        pessoa1.setPerfil(Perfil.ROLE_ADMIN);
-        pessoa1 = pessoaRepository.save(pessoa1);
-        return pessoa1;
-    }
-
 
     @Transactional
     public void deletar(Long codigo){

@@ -5,14 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PessoaInputDTO {
-
-    private String nome;
+public class LoginInputDTO {
 
     private String email;
-
-    private String senha;
-
 }
-
-
