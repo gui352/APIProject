@@ -1,12 +1,12 @@
-CREATE TABLE role_usuarios(
+CREATE TABLE role_pessoas(
     id bigint not null auto_increment,
-    usuarios_id bigint not null,
+    pessoas_codigo bigint not null,
     role_nome_role varchar(45) not null,
     primary key(id)
 );
 
-ALTER TABLE role_usuarios add CONSTRAINT fk_usuarios
-FOREIGN KEY(usuarios_id) REFERENCES pessoas(codigo);
+ALTER TABLE role_pessoas add CONSTRAINT fk_usuarios
+FOREIGN KEY(pessoas_codigo) REFERENCES pessoa(codigo);
 
-ALTER TABLE role_usuarios add CONSTRAINT fk_role
-FOREIGN KEY(role_nome_role) REFERENCES roles(nome_role);
+ALTER TABLE role_pessoas add CONSTRAINT fk_role
+FOREIGN KEY(role_nome_role) REFERENCES role(nome_role);

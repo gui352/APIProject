@@ -4,7 +4,6 @@ import com.apijava.javaAPI.api.assembler.PessoaAssembler;
 import com.apijava.javaAPI.api.model.PessoaDTO;
 import com.apijava.javaAPI.domain.exception.NegocioException;
 import com.apijava.javaAPI.domain.model.Pessoa;
-import com.apijava.javaAPI.domain.model.RoleUsuario;
 import com.apijava.javaAPI.domain.repository.PessoaRepository;
 import com.apijava.javaAPI.domain.repository.RoleUsuarioRepository;
 import lombok.AllArgsConstructor;

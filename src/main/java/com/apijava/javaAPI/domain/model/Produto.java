@@ -1,6 +1,5 @@
 package com.apijava.javaAPI.domain.model;
 
-import com.apijava.javaAPI.domain.ValidationGroups;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "produtos")
 public class Produto {
 
-    @NotNull(groups = ValidationGroups.codigo.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;

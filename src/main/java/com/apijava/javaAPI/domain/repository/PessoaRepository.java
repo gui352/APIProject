@@ -16,7 +16,4 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long>{
     @Query("SELECT p FROM Pessoa p WHERE p.email = ?1")
     Optional<Pessoa> findByEmail(String email);
 
-//    @Query("select p from Pessoa p where p.perfil = ?1")
-//    List<Pessoa> findByRole (String perfil);
-
 }

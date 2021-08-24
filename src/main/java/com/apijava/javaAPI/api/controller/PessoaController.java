@@ -4,7 +4,7 @@ import com.apijava.javaAPI.api.assembler.PessoaAssembler;
 import com.apijava.javaAPI.api.model.PessoaDTO;
 import com.apijava.javaAPI.api.model.input.PessoaInputDTO;
 import com.apijava.javaAPI.domain.model.Pessoa;
-import com.apijava.javaAPI.domain.model.RoleUsuario;
+import com.apijava.javaAPI.domain.model.RolePessoa;
 import com.apijava.javaAPI.domain.repository.PessoaRepository;
 import com.apijava.javaAPI.domain.service.PessoaService;
 import com.apijava.javaAPI.domain.service.RoleUsuarioService;
@@ -32,8 +32,8 @@ public class PessoaController {
         novaPessoa.setSenha(new BCryptPasswordEncoder()
                 .encode(pessoaInputDTO.getSenha()));
         Pessoa pessoa = pessoaService.cadastrar(novaPessoa);
-        RoleUsuario novaRole = new RoleUsuario();
-        novaRole.setUsuarios_id(novaPessoa.getCodigo());
+        RolePessoa novaRole = new RolePessoa();
+        novaRole.setPessoas_codigo(novaPessoa.getCodigo());
         novaRole.setRole_nome_role("ROLE_USER");
         roleUsuarioService.cadastrar(novaRole);
 

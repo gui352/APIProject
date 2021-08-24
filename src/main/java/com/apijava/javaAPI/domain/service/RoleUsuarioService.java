@@ -3,7 +3,7 @@ package com.apijava.javaAPI.domain.service;
 import com.apijava.javaAPI.api.assembler.RoleUsuarioAssembler;
 import com.apijava.javaAPI.api.model.RoleUsuarioDTO;
 import com.apijava.javaAPI.domain.exception.NegocioException;
-import com.apijava.javaAPI.domain.model.RoleUsuario;
+import com.apijava.javaAPI.domain.model.RolePessoa;
 import com.apijava.javaAPI.domain.repository.RoleUsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ public class RoleUsuarioService {
     private RoleUsuarioAssembler roleUsuarioAssembler;
 
     @Transactional
-    public RoleUsuario cadastrar(RoleUsuario roleUsuario){return roleUsuarioRepository.save(roleUsuario);}
+    public RolePessoa cadastrar(RolePessoa rolePessoa){return roleUsuarioRepository.save(rolePessoa);}
 
     public List<RoleUsuarioDTO> listar(){
         return roleUsuarioAssembler.toCollectionModel(roleUsuarioRepository.findAll());
     }
 
-    public RoleUsuario buscar(Long roleId){
+    public RolePessoa buscar(Long roleId){
         return roleUsuarioRepository.findById(roleId)
                 .orElseThrow(() -> new NegocioException("Pessoa não encontrada."));
     }
@@ -39,15 +39,15 @@ public class RoleUsuarioService {
                 .orElseThrow(() -> new NegocioException("Pessoa não encontrada."));
     }
 
-    public ResponseEntity<RoleUsuarioDTO> editar(Long roleId, RoleUsuario roleUsuario){
+    public ResponseEntity<RoleUsuarioDTO> editar(Long roleId, RolePessoa rolePessoa){
         if (!roleUsuarioRepository.existsById(roleId)){
             throw new NegocioException("Pessoa inexistente.");
         }
-        RoleUsuario roleUsuario1 = this.buscar(roleId);
-        roleUsuario.setId(roleId);
-        roleUsuario.setUsuarios_id(roleUsuario.getUsuarios_id());
-        roleUsuario = roleUsuarioRepository.save(roleUsuario);
-        return ResponseEntity.ok(roleUsuarioAssembler.toModel(roleUsuario));
+        RolePessoa rolePessoa1 = this.buscar(roleId);
+        rolePessoa.setId(roleId);
+        rolePessoa.setPessoas_codigo(rolePessoa.getPessoas_codigo());
+        rolePessoa = roleUsuarioRepository.save(rolePessoa);
+        return ResponseEntity.ok(roleUsuarioAssembler.toModel(rolePessoa));
     }
 
 }

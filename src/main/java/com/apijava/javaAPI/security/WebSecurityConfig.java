@@ -27,24 +27,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTH_LIST = {
             "/",
-            "/pessoas",
-            "/pessoas/cadastrar",
-            "/pessoas/{codigo}",
-            "/produtos/cadastrar",
-            "/produtos/{codigo}",
-            "/roles",
-            "/roles/{roleId}"
+            "pessoas/{codigo}",
+            "pessoas/cadastrar",
+            "produtos/{codigo}",
+            "produtos/cadastrar",
+            "produtos/listar",
     };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET,AUTH_LIST).permitAll()
+                .antMatchers(HttpMethod.POST,AUTH_LIST).permitAll()
+                .antMatchers(HttpMethod.PUT,AUTH_LIST).permitAll()
+                .antMatchers(HttpMethod.DELETE,AUTH_LIST).permitAll()
                 .antMatchers("/authenticate").permitAll()
-                .antMatchers(HttpMethod.GET,AUTH_LIST).hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST,AUTH_LIST).hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT,AUTH_LIST).hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE,AUTH_LIST).hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().cors()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -57,19 +55,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception{
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(implementsUserDetailsService)
-                .passwordEncoder(new BCryptPasswordEncoder());
-
+        auth.userDetailsService(implementsUserDetailsService).passwordEncoder(
+                new BCryptPasswordEncoder());
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/botstrap/**","/style/**");
     }
+
 }

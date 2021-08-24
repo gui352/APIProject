@@ -1,6 +1,5 @@
 package com.apijava.javaAPI.domain.model;
 
-import com.apijava.javaAPI.domain.ValidationGroups;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,12 +23,9 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @Setter
 @Entity
-@FieldDefaults(level = PRIVATE)
 @Table(name = "pessoas")
 public class Pessoa implements UserDetails {
 
-
-    @NotNull(groups = ValidationGroups.codigo.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
@@ -42,12 +38,11 @@ public class Pessoa implements UserDetails {
     private String email;
 
     @NotBlank
-    @Size(min = 6)
     private String senha;
 
     @ManyToMany
-    @JoinTable(name = "role_usuarios",
-            joinColumns = @JoinColumn(name = "usuarios_id",referencedColumnName = "codigo"),
+    @JoinTable(name = "role_pessoas",
+            joinColumns = @JoinColumn(name = "pessoas_codigo",referencedColumnName = "codigo"),
             inverseJoinColumns = @JoinColumn(name = "role_nome_role", referencedColumnName = "nomeRole"))
     private List<Role> roles;
 

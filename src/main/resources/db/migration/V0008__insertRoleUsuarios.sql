@@ -1,4 +1,4 @@
-INSERT INTO role_usuarios
+INSERT INTO role_pessoas
 VALUES
 ( null, 1, "ROLE_ADMIN"),
 ( null, 2, "ROLE_USER"),

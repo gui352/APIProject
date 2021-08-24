@@ -15,7 +15,6 @@ import java.util.List;
 @Setter
 @Entity
 @AllArgsConstructor
-@Table(name = "roles")
 public class Role implements GrantedAuthority {
 
     @Id

@@ -3,7 +3,7 @@ package com.apijava.javaAPI.api.controller;
 import com.apijava.javaAPI.api.assembler.RoleUsuarioAssembler;
 import com.apijava.javaAPI.api.model.RoleUsuarioDTO;
 import com.apijava.javaAPI.api.model.input.RoleUsuarioInputDTO;
-import com.apijava.javaAPI.domain.model.RoleUsuario;
+import com.apijava.javaAPI.domain.model.RolePessoa;
 import com.apijava.javaAPI.domain.repository.RoleUsuarioRepository;
 import com.apijava.javaAPI.domain.service.RoleUsuarioService;
 import lombok.AllArgsConstructor;
@@ -24,9 +24,9 @@ public class RoleUsuarioController {
 
     @PostMapping
     public RoleUsuarioDTO cadastrar(@Valid @RequestBody RoleUsuarioInputDTO roleUsuarioInputDTO){
-        RoleUsuario novaRole = roleUsuarioAssembler.toEntity(roleUsuarioInputDTO);
-        RoleUsuario roleUsuario = roleUsuarioService.cadastrar(novaRole);
-        return roleUsuarioAssembler.toModel(roleUsuario);
+        RolePessoa novaRole = roleUsuarioAssembler.toEntity(roleUsuarioInputDTO);
+        RolePessoa rolePessoa = roleUsuarioService.cadastrar(novaRole);
+        return roleUsuarioAssembler.toModel(rolePessoa);
     }
 
     @GetMapping
@@ -41,9 +41,9 @@ public class RoleUsuarioController {
 
     @PutMapping("/{roleId}")
     public ResponseEntity<RoleUsuarioDTO> editar(@Valid @PathVariable Long roleId, @RequestBody RoleUsuarioInputDTO roleUsuarioInputDTO) {
-        RoleUsuario roleUsuario1 = roleUsuarioAssembler.toEntity(roleUsuarioInputDTO);
-        roleUsuarioService.editar(roleId, roleUsuario1);
-        return ResponseEntity.ok(roleUsuarioAssembler.toModel(roleUsuario1));
+        RolePessoa rolePessoa1 = roleUsuarioAssembler.toEntity(roleUsuarioInputDTO);
+        roleUsuarioService.editar(roleId, rolePessoa1);
+        return ResponseEntity.ok(roleUsuarioAssembler.toModel(rolePessoa1));
     }
 
 }

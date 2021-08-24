@@ -16,22 +16,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ImplementsUserDetailsService implements UserDetailsService {
 
-    private PessoaRepository pessoaRepository;
+    private PessoaRepository usuarioRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Pessoa pessoa = pessoaRepository.findByUsername(email);
-        if (pessoa  == null){
-            throw new NegocioException("Usuario ou senha inválido");
+        Pessoa usuario = usuarioRepository.findByUsername(email);
+
+        if(usuario == null){
+            throw new NegocioException("Usuário ou senha inválido.");
         }
+
         return new User(
-                pessoa.getUsername(),
-                pessoa.getPassword(),
+                usuario.getUsername(),
+                usuario.getPassword(),
                 true,
                 true,
                 true,
                 true,
-                pessoa.getAuthorities()
+                usuario.getAuthorities()
         );
     }
 }
